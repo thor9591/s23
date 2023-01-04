@@ -1,0 +1,87 @@
+//s23
+//create a file sortedcities.txt and enter following in txt file
+//Baramati 41
+//Pune 22
+//Mumbai 02
+//Chennai 34
+//Bangalore 15
+
+//.c
+#include <stdio.h>
+#include <string.h>
+typedef struct city
+{
+char name[30];
+int code;
+} CITY;
+CITY city[100];
+int read_file(CITY *a)
+{
+int i = 0;
+FILE *fp;
+if ((fp = fopen("sortedcities.txt", "r")) != NULL)
+while (!feof(fp))
+{
+fscanf(fp, "%s%d", a[i].name, &a[i].code);
+i++;
+}
+return (i - 1);
+}
+void sort(CITY *a, int n)
+{
+int i, j;
+CITY t;
+for (i = 1; i < n; i++)
+{
+for (j = 0; j < n - i; j++)
+{
+if (strcmp(a[j].name, a[j + 1].name) > 0)
+{
+t = a[j];
+a[j] = a[j + 1];
+a[j + 1] = t;
+}
+}
+}
+}
+void b_search(CITY *a, int n, char key[20])
+{
+int top, bottom, mid;
+top = 0;
+bottom = n - 1;
+while (bottom >= top)
+{
+mid = (top + bottom) / 2;
+if (strcmp(key, a[mid].name) == 0)
+{
+printf("\nSTD code:%d\n ", a[mid].code);
+break;
+}
+else if (strcmp(key, a[mid].name) < 0)
+bottom = mid - 1;
+else
+top = mid + 1;
+}
+if (bottom < top)
+printf("\nCity not in list\n");
+}
+void main()
+{
+char key[20];
+int n, m;
+n = read_file(city);
+sort(city, n);
+printf("\nEnter city name: ");
+scanf("%s", key);
+b_search(city, n, key);
+}
+
+
+//cc filename.h
+//cc filename.c
+//  ./a.out
+
+
+//OUTPUT
+//Enter city name: Chennai
+//STD code:34
